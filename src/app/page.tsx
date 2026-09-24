@@ -1,5 +1,6 @@
 import WorkoutCard from "./components/WorkoutCard";
 
+
 interface Workout {
   id: number;
   name: string;
