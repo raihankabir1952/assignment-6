@@ -1,4 +1,5 @@
-import { Calendar, Bookmark } from 'lucide-react'; 
+import AddToPlanButton from "../../components/AddToPlanButton";
+import SaveForLaterButton from "../../components/SaveForLaterButton";
 
 interface WorkoutDetailsProps {
   params: Promise<{
@@ -44,8 +45,8 @@ export default async function WorkoutDetails({
         {/* Details Layout */}
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:items-start">
 
-          {/* Left - Image (Perfect Square to match UI) */}
-          <div className="overflow-hidden rounded-2xl bg-[#17181c] aspect-square">
+          {/* Left - Image */}
+          <div className="aspect-square overflow-hidden rounded-2xl bg-[#17181c]">
             <img
               src={workout.image}
               alt={workout.name}
@@ -54,15 +55,15 @@ export default async function WorkoutDetails({
           </div>
 
           {/* Right - Details */}
-          <div className="text-white flex flex-col h-full">
+          <div className="flex h-full flex-col text-white">
 
             {/* Name */}
-            <h1 className="text-3xl font-black uppercase tracking-wide md:text-4xl text-white font-sans">
+            <h1 className="font-sans text-3xl font-black uppercase tracking-wide text-white md:text-4xl">
               {workout.name}
             </h1>
 
             {/* Description */}
-            <p className="mt-3 text-sm leading-relaxed text-gray-400 font-normal">
+            <p className="mt-3 text-sm font-normal leading-relaxed text-gray-400">
               {workout.description}
             </p>
 
@@ -71,59 +72,88 @@ export default async function WorkoutDetails({
               {workout.muscleGroups.map((group) => (
                 <span
                   key={group}
-                  className="rounded-full bg-[#CCFF00] px-3 py-1 text-[11px] font-bold text-black uppercase tracking-wide"
+                  className="rounded-full bg-[#CCFF00] px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-black"
                 >
                   {group}
                 </span>
               ))}
             </div>
 
-            {/* Specs Table Layer */}
-            <div className="mt-6 bg-[#131418] rounded-xl p-5 border border-gray-800/40 text-xs divide-y divide-gray-800/60">
-              
-              <div className="flex justify-between items-center py-2.5">
-                <span className="uppercase text-gray-500 tracking-wider font-semibold">Equipment</span>
-                <span className="text-gray-300 font-medium">{workout.equipment}</span>
+            {/* Specs Table */}
+            <div className="mt-6 divide-y divide-gray-800/60 rounded-xl border border-gray-800/40 bg-[#131418] p-5 text-xs">
+
+              <div className="flex items-center justify-between py-2.5">
+                <span className="font-semibold uppercase tracking-wider text-gray-500">
+                  Equipment
+                </span>
+                <span className="font-medium text-gray-300">
+                  {workout.equipment}
+                </span>
               </div>
 
-              <div className="flex justify-between items-center py-2.5">
-                <span className="uppercase text-gray-500 tracking-wider font-semibold">Difficulty</span>
-                <span className="text-gray-300 font-medium">{workout.difficulty}</span>
+              <div className="flex items-center justify-between py-2.5">
+                <span className="font-semibold uppercase tracking-wider text-gray-500">
+                  Difficulty
+                </span>
+                <span className="font-medium text-gray-300">
+                  {workout.difficulty}
+                </span>
               </div>
 
-              <div className="flex justify-between items-center py-2.5">
-                <span className="uppercase text-gray-500 tracking-wider font-semibold">Sets</span>
-                <span className="text-gray-300 font-medium">{workout.sets}</span>
+              <div className="flex items-center justify-between py-2.5">
+                <span className="font-semibold uppercase tracking-wider text-gray-500">
+                  Sets
+                </span>
+                <span className="font-medium text-gray-300">
+                  {workout.sets}
+                </span>
               </div>
 
-              <div className="flex justify-between items-center py-2.5">
-                <span className="uppercase text-gray-500 tracking-wider font-semibold">Reps</span>
-                <span className="text-gray-300 font-medium">{workout.reps}</span>
+              <div className="flex items-center justify-between py-2.5">
+                <span className="font-semibold uppercase tracking-wider text-gray-500">
+                  Reps
+                </span>
+                <span className="font-medium text-gray-300">
+                  {workout.reps}
+                </span>
               </div>
 
-              <div className="flex justify-between items-center py-2.5">
-                <span className="uppercase text-gray-500 tracking-wider font-semibold">Duration</span>
-                <span className="text-gray-300 font-medium">{workout.duration} min</span>
+              <div className="flex items-center justify-between py-2.5">
+                <span className="font-semibold uppercase tracking-wider text-gray-500">
+                  Duration
+                </span>
+                <span className="font-medium text-gray-300">
+                  {workout.duration} min
+                </span>
               </div>
 
-              <div className="flex justify-between items-center py-2.5">
-                <span className="uppercase text-gray-500 tracking-wider font-semibold">Calories</span>
-                <span className="text-gray-300 font-medium">{workout.caloriesBurned} kcal</span>
+              <div className="flex items-center justify-between py-2.5">
+                <span className="font-semibold uppercase tracking-wider text-gray-500">
+                  Calories
+                </span>
+                <span className="font-medium text-gray-300">
+                  {workout.caloriesBurned} kcal
+                </span>
               </div>
 
-              <div className="flex justify-between items-center py-2.5">
-                <span className="uppercase text-gray-500 tracking-wider font-semibold">Rating</span>
-                <span className="text-gray-300 font-medium">{workout.rating}</span>
+              <div className="flex items-center justify-between py-2.5">
+                <span className="font-semibold uppercase tracking-wider text-gray-500">
+                  Rating
+                </span>
+                <span className="font-medium text-gray-300">
+                  {workout.rating}
+                </span>
               </div>
 
             </div>
 
-            {/* Instructions Section */}
+            {/* Instructions */}
             <div className="mt-8">
-              <h2 className="text-sm font-black uppercase tracking-widest text-white font-sans mb-4">
+              <h2 className="mb-4 font-sans text-sm font-black uppercase tracking-widest text-white">
                 Instructions
               </h2>
-              <ol className="space-y-3 text-xs leading-relaxed text-gray-400 list-decimal pl-4">
+
+              <ol className="list-decimal space-y-3 pl-4 text-xs leading-relaxed text-gray-400">
                 {workout.instructions.map((step, index) => (
                   <li key={index} className="pl-1">
                     {step}
@@ -132,17 +162,15 @@ export default async function WorkoutDetails({
               </ol>
             </div>
 
-            {/* Action Buttons Layer */}
+            {/* Action Buttons */}
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <button className="flex items-center gap-2 bg-[#CCFF00] hover:bg-opacity-90 text-black text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-lg transition-all">
-                <Calendar className="w-4 h-4 text-black" strokeWidth={2.5} />
-                Add to today&apos;s plan
-              </button>
-              
-              <button className="flex items-center gap-2 border border-gray-700 bg-transparent hover:bg-gray-800 text-gray-300 text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-lg transition-all">
-                <Bookmark className="w-4 h-4 text-gray-400" />
-                Save for later
-              </button>
+
+              {/* Add to Plan */}
+              <AddToPlanButton workout={workout} />
+
+              {/* Save for Later */}
+              <SaveForLaterButton workout={workout} />
+
             </div>
 
           </div>

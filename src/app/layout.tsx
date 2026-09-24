@@ -4,6 +4,9 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Footer from "./components/Footer";
+import { FitLogProvider } from "./context/FitLogContext";
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,15 +31,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
 
-    <Navbar></Navbar>
-    {/* <Hero></Hero> */}
-      <div>
-        {children}
-      </div>
-      <Footer></Footer>
+
+        <FitLogProvider>
+          <Navbar />
+
+          {children}
+
+          <Footer />
+        </FitLogProvider>
 
 
-        </body>
+      </body>
     </html>
   );
 }
