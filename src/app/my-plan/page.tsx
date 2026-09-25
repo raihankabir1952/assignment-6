@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
 import { Clock3, Flame, Star } from "lucide-react";
 import FitLogContext from "../context/FitLogContext";
@@ -8,16 +8,22 @@ import FitLogContext from "../context/FitLogContext";
 export default function MyPlanPage() {
   const context = useContext(FitLogContext);
 
+  const [activeTab, setActiveTab] = useState<"today" | "saved">("today");
+
   const plannedWorkouts = context?.planWorkouts ?? [];
+  const savedWorkouts = context?.savedWorkouts ?? [];
 
-  const totalExercises = plannedWorkouts.length;
+  const displayedWorkouts =
+    activeTab === "today" ? plannedWorkouts : savedWorkouts;
 
-  const totalMinutes = plannedWorkouts.reduce(
+  const totalExercises = displayedWorkouts.length;
+
+  const totalMinutes = displayedWorkouts.reduce(
     (total, workout) => total + workout.duration,
     0
   );
 
-  const totalCalories = plannedWorkouts.reduce(
+  const totalCalories = displayedWorkouts.reduce(
     (total, workout) => total + workout.caloriesBurned,
     0
   );
@@ -31,10 +37,9 @@ export default function MyPlanPage() {
         Cap of five lifts for today. Finish them, then load more.
       </p>
 
-      {/* Plan Summary */}
+      {/* Summary */}
       <div className="mt-6 grid grid-cols-1 rounded-lg border border-dashed border-gray-700 p-6 sm:grid-cols-3 sm:divide-x sm:divide-gray-700">
-        {/* Exercises */}
-        <div className="sm:px-6 first:pl-0 last:pr-0">
+        <div className="sm:px-6 first:pl-0">
           <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
             Exercises
           </p>
@@ -44,7 +49,6 @@ export default function MyPlanPage() {
           </p>
         </div>
 
-        {/* Minutes */}
         <div className="mt-4 sm:mt-0 sm:px-6">
           <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
             Minutes
@@ -55,7 +59,6 @@ export default function MyPlanPage() {
           </p>
         </div>
 
-        {/* Calories */}
         <div className="mt-4 sm:mt-0 sm:px-6">
           <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
             Calories
@@ -70,32 +73,39 @@ export default function MyPlanPage() {
       {/* Toggle Buttons */}
       <div className="mt-8 flex w-fit items-center gap-1 rounded-lg border border-gray-800 bg-[#17181c] p-1">
         <button
-          className="rounded-md bg-[#111214] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white border border-gray-800"
+          onClick={() => setActiveTab("today")}
+          className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${
+            activeTab === "today"
+              ? "border border-gray-800 bg-[#111214] text-white"
+              : "text-gray-500 hover:text-white"
+          }`}
         >
-          Today's Plan
+          Today&apos;s Plan
         </button>
 
         <button
-          className="rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-500 transition-colors hover:text-white"
+          onClick={() => setActiveTab("saved")}
+          className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${
+            activeTab === "saved"
+              ? "border border-gray-800 bg-[#111214] text-white"
+              : "text-gray-500 hover:text-white"
+          }`}
         >
           Saved
         </button>
       </div>
 
-      {/* Temporary Debug Count */}
-      <p className="mt-4">
-        Planned workouts: {context?.planWorkouts.length ?? 0}
-      </p>
-
-      {/* Today's Plan */}
-      {context?.planWorkouts.length === 0 ? (
+      {/* Empty State */}
+      {displayedWorkouts.length === 0 ? (
         <div className="mt-8 flex flex-col items-center text-center">
           <h2 className="text-2xl font-bold text-white">
             NOTHING HERE YET
           </h2>
 
           <p className="mt-2 text-sm text-gray-400">
-            Browse the library and add a workout to your plan.
+            {activeTab === "today"
+              ? "Browse the library and add a workout to your plan."
+              : "Save a workout to see it here later."}
           </p>
 
           <Link
@@ -106,33 +116,50 @@ export default function MyPlanPage() {
           </Link>
         </div>
       ) : (
+        /* Workout Cards */
         <div className="mt-6 space-y-4">
-          {context.planWorkouts.map((workout) => (
+          {displayedWorkouts.map((workout) => (
             <div
               key={workout.id}
-              className="rounded-lg border border-gray-700 p-4"
+              className="flex flex-col gap-4 rounded-lg border border-gray-700 p-4 sm:flex-row sm:items-center"
             >
-              <h2 className="text-xl font-bold">
-                {workout.name}
-              </h2>
+              {/* Image */}
+              <div className="h-24 w-full shrink-0 overflow-hidden rounded-lg bg-gray-900 sm:h-20 sm:w-28">
+                <img
+                  src={workout.image}
+                  alt={workout.name}
+                  className="h-full w-full object-cover"
+                />
+              </div>
 
-              <div className="mt-3 flex items-center gap-5">
-                {/* Duration */}
-                <div className="flex items-center gap-2 text-gray-400">
-                  <Clock3 size={16} />
-                  <span>{workout.duration} min</span>
-                </div>
+              {/* Info */}
+              <div className="flex-1">
+                <h2 className="text-xl font-bold">
+                  {workout.name}
+                </h2>
 
-                {/* Calories */}
-                <div className="flex items-center gap-2 text-gray-400">
-                  <Flame size={16} />
-                  <span>{workout.caloriesBurned} kcal</span>
-                </div>
+                <p className="mt-1 font-bold text-gray-400">
+                  {workout.equipment}
+                </p>
 
-                {/* Rating */}
-                <div className="flex items-center gap-2 text-[#CCFF00]">
-                  <Star size={16} fill="currentColor" />
-                  <span>{workout.rating}</span>
+                <div className="mt-3 flex flex-wrap items-center gap-5">
+                  {/* Duration */}
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <Clock3 size={16} />
+                    <span>{workout.duration} min</span>
+                  </div>
+
+                  {/* Calories */}
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <Flame size={16} />
+                    <span>{workout.caloriesBurned} kcal</span>
+                  </div>
+
+                  {/* Rating */}
+                  <div className="flex items-center gap-2 text-[#CCFF00]">
+                    <Star size={16} fill="currentColor" />
+                    <span>{workout.rating}</span>
+                  </div>
                 </div>
               </div>
             </div>
