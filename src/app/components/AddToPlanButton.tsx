@@ -29,7 +29,7 @@ const AddToPlanButton = ({ workout }: { workout: Workout }) => {
       onClick={handleAddToPlan}
       className="rounded-lg border border-[#CCFF00] bg-[#CCFF00] px-5 py-3 text-xs font-bold uppercase tracking-wider text-black transition-all hover:bg-transparent hover:text-[#CCFF00]"
     >
-      Add to today's plan
+      Add to today&apos;s plan
     </button>
   );
 };

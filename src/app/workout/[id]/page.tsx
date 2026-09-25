@@ -1,5 +1,6 @@
 import AddToPlanButton from "../../components/AddToPlanButton";
 import SaveForLaterButton from "../../components/SaveForLaterButton";
+import { notFound } from "next/navigation";
 
 interface WorkoutDetailsProps {
   params: Promise<{
@@ -31,6 +32,10 @@ export default async function WorkoutDetails({
   const res = await fetch(
     `https://api.abcz.workers.dev/api/fitlog/${id}`
   );
+
+  if (res.status === 404) {
+    notFound();
+  }
 
   if (!res.ok) {
     throw new Error("Failed to fetch workout details");
