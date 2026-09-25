@@ -4,11 +4,21 @@ import { useContext, useState } from "react";
 import Link from "next/link";
 import { Clock3, Flame, Star, X } from "lucide-react";
 import FitLogContext from "../context/FitLogContext";
+import SortDropdown from "../components/SortDropdown";
+
+type SortOption =
+  | "default"
+  | "name"
+  | "duration"
+  | "calories"
+  | "rating";
 
 export default function MyPlanPage() {
   const context = useContext(FitLogContext);
 
   const [activeTab, setActiveTab] = useState<"today" | "saved">("today");
+
+  const [sortBy, setSortBy] = useState<SortOption>("default");
 
   const plannedWorkouts = context?.planWorkouts ?? [];
   const savedWorkouts = context?.savedWorkouts ?? [];
@@ -16,6 +26,28 @@ export default function MyPlanPage() {
   const displayedWorkouts =
     activeTab === "today" ? plannedWorkouts : savedWorkouts;
 
+  // Sorting
+  const sortedWorkouts = [...displayedWorkouts].sort((a, b) => {
+    if (sortBy === "name") {
+      return a.name.localeCompare(b.name);
+    }
+
+    if (sortBy === "duration") {
+      return a.duration - b.duration;
+    }
+
+    if (sortBy === "calories") {
+      return a.caloriesBurned - b.caloriesBurned;
+    }
+
+    if (sortBy === "rating") {
+      return b.rating - a.rating;
+    }
+
+    return 0;
+  });
+
+  // Summary
   const totalExercises = displayedWorkouts.length;
 
   const totalMinutes = displayedWorkouts.reduce(
@@ -73,33 +105,44 @@ export default function MyPlanPage() {
         </div>
       </div>
 
-      {/* Toggle Buttons */}
-      <div className="mt-8 flex w-fit items-center gap-1 rounded-lg border border-gray-800 bg-[#17181c] p-1">
-        <button
-          type="button"
-          onClick={() => setActiveTab("today")}
-          className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${activeTab === "today"
-            ? "border border-gray-800 bg-[#111214] text-white"
-            : "text-gray-500 hover:text-white"
+      {/* Tabs + Sort */}
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
+        {/* Tabs */}
+        <div className="flex w-fit items-center gap-1 rounded-lg border border-gray-800 bg-[#17181c] p-1">
+          <button
+            type="button"
+            onClick={() => setActiveTab("today")}
+            className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${
+              activeTab === "today"
+                ? "border border-gray-800 bg-[#111214] text-white"
+                : "text-gray-500 hover:text-white"
             }`}
-        >
-          Today's Plan
-        </button>
+          >
+            Today's Plan
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setActiveTab("saved")}
-          className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${activeTab === "saved"
-            ? "border border-gray-800 bg-[#111214] text-white"
-            : "text-gray-500 hover:text-white"
+          <button
+            type="button"
+            onClick={() => setActiveTab("saved")}
+            className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${
+              activeTab === "saved"
+                ? "border border-gray-800 bg-[#111214] text-white"
+                : "text-gray-500 hover:text-white"
             }`}
-        >
-          Saved
-        </button>
+          >
+            Saved
+          </button>
+        </div>
+
+        {/* Sort Dropdown */}
+        <SortDropdown
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+        />
       </div>
 
       {/* Empty State */}
-      {displayedWorkouts.length === 0 ? (
+      {sortedWorkouts.length === 0 ? (
         <div className="mt-8 flex flex-col items-center text-center">
           <h2 className="text-2xl font-bold text-white">
             NOTHING HERE YET
@@ -121,7 +164,7 @@ export default function MyPlanPage() {
       ) : (
         /* Workout Cards */
         <div className="mt-6 space-y-4">
-          {displayedWorkouts.map((workout) => (
+          {sortedWorkouts.map((workout) => (
             <div
               key={workout.id}
               className="flex flex-col gap-4 rounded-lg border border-gray-700 p-4 sm:flex-row sm:items-center"
@@ -145,26 +188,32 @@ export default function MyPlanPage() {
                   {workout.equipment}
                 </p>
 
-                {/* Workout Stats */}
+                {/* Stats */}
                 <div className="mt-3 flex flex-wrap items-center gap-5">
+                  {/* Duration */}
                   <div className="flex items-center gap-2 text-gray-400">
                     <Clock3 size={16} />
                     <span>{workout.duration} min</span>
                   </div>
 
+                  {/* Calories */}
                   <div className="flex items-center gap-2 text-gray-400">
                     <Flame size={16} />
                     <span>{workout.caloriesBurned} kcal</span>
                   </div>
 
+                  {/* Rating */}
                   <div className="flex items-center gap-2 text-[#CCFF00]">
-                    <Star size={16} fill="currentColor" />
+                    <Star
+                      size={16}
+                      fill="currentColor"
+                    />
                     <span>{workout.rating}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Action Buttons - Right Side */}
+              {/* Action Buttons */}
               <div className="flex shrink-0 flex-wrap items-center gap-2 sm:ml-auto">
                 {/* View Details */}
                 <Link
