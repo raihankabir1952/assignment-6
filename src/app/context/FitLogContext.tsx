@@ -50,12 +50,24 @@ const FitLogProvider = ({
 
     // Add workout to plan
     const addToPlan = (workout: Workout) => {
-        setPlanWorkouts((prev) => [...prev, workout]);
+        setPlanWorkouts((prev) => {
+            if (prev.some((item) => item.id === workout.id)) {
+                return prev;
+            }
+
+            return [...prev, workout];
+        });
     };
 
     // Save workout for later
     const saveForLater = (workout: Workout) => {
-        setSavedWorkouts((prev) => [...prev, workout]);
+        setSavedWorkouts((prev) => {
+            if (prev.some((item) => item.id === workout.id)) {
+                return prev;
+            }
+
+            return [...prev, workout];
+        });
     };
 
     // Remove workout from plan

@@ -19,6 +19,18 @@ const AddToPlanButton = ({ workout }: { workout: Workout }) => {
   const handleAddToPlan = () => {
     if (!context) return;
 
+    const alreadyAdded = context.planWorkouts.some(
+      (item) => item.id === workout.id
+    );
+
+    if (alreadyAdded) {
+      context.showToast(
+        "Workout is already in today's plan!",
+        "error"
+      );
+      return;
+    }
+
     context.addToPlan(workout);
     context.showToast("Workout added to today's plan!");
   };

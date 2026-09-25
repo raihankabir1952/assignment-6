@@ -8,8 +8,6 @@ import SortDropdown from "../components/SortDropdown";
 import MarkAsDoneButton from "../components/MarkAsDoneButton";
 
 type SortOption =
-  | "default"
-  | "name"
   | "duration"
   | "calories"
   | "rating";
@@ -19,7 +17,8 @@ export default function MyPlanPage() {
 
   const [activeTab, setActiveTab] = useState<"today" | "saved">("today");
 
-  const [sortBy, setSortBy] = useState<SortOption>("default");
+  const [sortBy, setSortBy] =
+    useState<SortOption>("duration");
 
   const plannedWorkouts = context?.planWorkouts ?? [];
   const savedWorkouts = context?.savedWorkouts ?? [];
@@ -29,10 +28,6 @@ export default function MyPlanPage() {
 
   // Sorting
   const sortedWorkouts = [...displayedWorkouts].sort((a, b) => {
-    if (sortBy === "name") {
-      return a.name.localeCompare(b.name);
-    }
-
     if (sortBy === "duration") {
       return a.duration - b.duration;
     }
@@ -114,8 +109,8 @@ export default function MyPlanPage() {
             type="button"
             onClick={() => setActiveTab("today")}
             className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${activeTab === "today"
-                ? "border border-gray-800 bg-[#111214] text-white"
-                : "text-gray-500 hover:text-white"
+              ? "border border-gray-800 bg-[#111214] text-white"
+              : "text-gray-500 hover:text-white"
               }`}
           >
             Today's Plan
@@ -125,8 +120,8 @@ export default function MyPlanPage() {
             type="button"
             onClick={() => setActiveTab("saved")}
             className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${activeTab === "saved"
-                ? "border border-gray-800 bg-[#111214] text-white"
-                : "text-gray-500 hover:text-white"
+              ? "border border-gray-800 bg-[#111214] text-white"
+              : "text-gray-500 hover:text-white"
               }`}
           >
             Saved
