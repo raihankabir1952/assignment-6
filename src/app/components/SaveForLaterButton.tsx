@@ -9,6 +9,7 @@ interface Workout {
     name: string;
     duration: number;
     caloriesBurned: number;
+    rating : number;
 }
 
 const SaveForLaterButton = ({ workout }: { workout: Workout }) => {

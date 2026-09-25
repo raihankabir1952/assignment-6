@@ -7,6 +7,7 @@ interface Workout {
     name: string;
     duration: number;
     caloriesBurned: number;
+    rating : number;
 }
 
 interface FitLogContextType {
