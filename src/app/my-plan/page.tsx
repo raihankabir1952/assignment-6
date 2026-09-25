@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Clock3, Flame, Star, X } from "lucide-react";
 import FitLogContext from "../context/FitLogContext";
 import SortDropdown from "../components/SortDropdown";
+import MarkAsDoneButton from "../components/MarkAsDoneButton";
 
 type SortOption =
   | "default"
@@ -72,7 +73,7 @@ export default function MyPlanPage() {
       {/* Summary */}
       <div className="mt-6 grid grid-cols-1 rounded-lg border border-dashed border-gray-700 p-6 sm:grid-cols-3 sm:divide-x sm:divide-gray-700">
         {/* Exercises */}
-        <div className="sm:px-6 first:pl-0">
+        <div className="first:pl-0 sm:px-6">
           <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
             Exercises
           </p>
@@ -224,12 +225,7 @@ export default function MyPlanPage() {
                 </Link>
 
                 {/* Mark as Done */}
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center whitespace-nowrap rounded-lg bg-[#CCFF00] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-black transition-colors hover:bg-[#b8e600]"
-                >
-                  Mark as Done
-                </button>
+                <MarkAsDoneButton workoutId={workout.id} />
 
                 {/* Remove */}
                 <button

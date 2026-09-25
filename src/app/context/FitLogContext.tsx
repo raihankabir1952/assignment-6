@@ -15,14 +15,17 @@ interface Workout {
 interface FitLogContextType {
     planWorkouts: Workout[];
     savedWorkouts: Workout[];
+    completedWorkouts : number[];
 
     setPlanWorkouts: React.Dispatch<React.SetStateAction<Workout[]>>;
     setSavedWorkouts: React.Dispatch<React.SetStateAction<Workout[]>>;
+    
 
     addToPlan: (workout: Workout) => void;
     saveForLater: (workout: Workout) => void;
     removeFromPlan: (id: number) => void;
     removeFromSaved: (id: number) => void;
+    markAsDone : (id : number) => void;
 }
 
 const FitLogContext = createContext<FitLogContextType | null>(null);
@@ -34,6 +37,7 @@ const FitLogProvider = ({
 }) => {
     const [planWorkouts, setPlanWorkouts] = useState<Workout[]>([]);
     const [savedWorkouts, setSavedWorkouts] = useState<Workout[]>([]);
+    const [completedWorkouts, setCompletedWorkouts] = useState<number[]>([]);
 
     // Add workout to plan
     const addToPlan = (workout: Workout) => {
@@ -59,6 +63,17 @@ const FitLogProvider = ({
         );
     };
 
+    //marks as done
+    const markAsDone = (id: number) => {
+    setCompletedWorkouts((prev) => {
+        if (prev.includes(id)) {
+            return prev;
+        }
+
+        return [...prev, id];
+    });
+};
+
     return (
         <FitLogContext.Provider
             value={{
@@ -69,7 +84,9 @@ const FitLogProvider = ({
                 addToPlan,
                 saveForLater,
                 removeFromPlan,
-                removeFromSaved
+                removeFromSaved,
+                completedWorkouts,
+                markAsDone,
 
             }}
         >
