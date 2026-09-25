@@ -113,11 +113,10 @@ export default function MyPlanPage() {
           <button
             type="button"
             onClick={() => setActiveTab("today")}
-            className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${
-              activeTab === "today"
+            className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${activeTab === "today"
                 ? "border border-gray-800 bg-[#111214] text-white"
                 : "text-gray-500 hover:text-white"
-            }`}
+              }`}
           >
             Today's Plan
           </button>
@@ -125,11 +124,10 @@ export default function MyPlanPage() {
           <button
             type="button"
             onClick={() => setActiveTab("saved")}
-            className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${
-              activeTab === "saved"
+            className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${activeTab === "saved"
                 ? "border border-gray-800 bg-[#111214] text-white"
                 : "text-gray-500 hover:text-white"
-            }`}
+              }`}
           >
             Saved
           </button>
@@ -234,8 +232,10 @@ export default function MyPlanPage() {
                   onClick={() => {
                     if (activeTab === "today") {
                       context?.removeFromPlan(workout.id);
+                      context?.showToast("Workout removed!", "error");
                     } else {
                       context?.removeFromSaved(workout.id);
+                      context?.showToast("Workout removed!", "error");
                     }
                   }}
                   className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-700 text-gray-500 transition-colors hover:border-red-500 hover:text-red-500"

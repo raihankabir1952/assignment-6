@@ -15,6 +15,7 @@ const MarkAsDoneButton = ({
   const handleMarkAsDone = () => {
     context?.markAsDone(workoutId);
     context?.removeFromPlan(workoutId);
+    context?.showToast("Workout completed!");
   };
 
   return (

@@ -12,20 +12,26 @@ interface Workout {
     equipment: string;
 }
 
+type ToastType = "success" | "error";
+
 interface FitLogContextType {
     planWorkouts: Workout[];
     savedWorkouts: Workout[];
-    completedWorkouts : number[];
+    completedWorkouts: number[];
 
     setPlanWorkouts: React.Dispatch<React.SetStateAction<Workout[]>>;
     setSavedWorkouts: React.Dispatch<React.SetStateAction<Workout[]>>;
-    
 
     addToPlan: (workout: Workout) => void;
     saveForLater: (workout: Workout) => void;
     removeFromPlan: (id: number) => void;
     removeFromSaved: (id: number) => void;
-    markAsDone : (id : number) => void;
+    markAsDone: (id: number) => void;
+
+    toastMessage: string;
+    toastType: ToastType;
+    showToast: (message: string, type?: ToastType) => void;
+    clearToast: () => void;
 }
 
 const FitLogContext = createContext<FitLogContextType | null>(null);
@@ -39,6 +45,9 @@ const FitLogProvider = ({
     const [savedWorkouts, setSavedWorkouts] = useState<Workout[]>([]);
     const [completedWorkouts, setCompletedWorkouts] = useState<number[]>([]);
 
+    const [toastMessage, setToastMessage] = useState("");
+    const [toastType, setToastType] = useState<ToastType>("success");
+
     // Add workout to plan
     const addToPlan = (workout: Workout) => {
         setPlanWorkouts((prev) => [...prev, workout]);
@@ -49,45 +58,69 @@ const FitLogProvider = ({
         setSavedWorkouts((prev) => [...prev, workout]);
     };
 
-    //remove from plan
+    // Remove workout from plan
     const removeFromPlan = (id: number) => {
         setPlanWorkouts((prev) =>
             prev.filter((workout) => workout.id !== id)
         );
     };
 
-    //remove from saved
+    // Remove workout from saved
     const removeFromSaved = (id: number) => {
         setSavedWorkouts((prev) =>
             prev.filter((workout) => workout.id !== id)
         );
     };
 
-    //marks as done
+    // Mark workout as done
     const markAsDone = (id: number) => {
-    setCompletedWorkouts((prev) => {
-        if (prev.includes(id)) {
-            return prev;
-        }
+        setCompletedWorkouts((prev) => {
+            if (prev.includes(id)) {
+                return prev;
+            }
 
-        return [...prev, id];
-    });
-};
+            return [...prev, id];
+        });
+    };
+
+    // Show toast notification
+    const showToast = (
+        message: string,
+        type: ToastType = "success"
+    ) => {
+        setToastMessage(message);
+        setToastType(type);
+
+        setTimeout(() => {
+            setToastMessage("");
+        }, 2000);
+    };
+
+    // Clear toast
+    const clearToast = () => {
+        setToastMessage("");
+    };
 
     return (
         <FitLogContext.Provider
             value={{
                 planWorkouts,
                 savedWorkouts,
+                completedWorkouts,
+
                 setPlanWorkouts,
                 setSavedWorkouts,
+
                 addToPlan,
                 saveForLater,
                 removeFromPlan,
                 removeFromSaved,
-                completedWorkouts,
                 markAsDone,
 
+                toastMessage,
+                toastType,
+                showToast,
+                clearToast,
             }}
         >
             {children}
