@@ -13,7 +13,7 @@ const Navbar: FC = () => {
   const isMyPlanActive = pathname === "/my-plan";
 
   return (
-    <nav className="flex w-full items-center justify-between border-b border-gray-800 bg-[#111214] px-6 py-4">
+<nav className="sticky top-0 z-50 flex w-full items-center justify-between border-b border-gray-800 bg-[#111214] px-6 py-4">
       {/* Logo */}
       <Link href="/" className="flex items-center space-x-2">
         <img
