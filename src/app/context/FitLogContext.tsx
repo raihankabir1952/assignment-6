@@ -55,6 +55,10 @@ const FitLogProvider = ({
                 return prev;
             }
 
+            if (prev.length >= 5) {
+                return prev;
+            }
+
             return [...prev, workout];
         });
     };

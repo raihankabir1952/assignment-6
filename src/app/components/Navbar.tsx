@@ -2,72 +2,84 @@
 
 import React, { FC, useContext } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import FitLogContext from "../context/FitLogContext";
 
 const Navbar: FC = () => {
-    const context = useContext(FitLogContext);
+  const context = useContext(FitLogContext);
+  const pathname = usePathname();
 
-    return (
-        <nav className="w-full bg-[#111214] px-6 py-4 flex items-center justify-between border-b border-gray-800">
+  const isWorkoutActive = pathname === "/";
+  const isMyPlanActive = pathname === "/my-plan";
 
-            {/* Left Side: Logo */}
-            <Link href="/" className="flex items-center space-x-2">
-                <img
-                    src="/assets/logo.png"
-                    alt="FITLOG Logo"
-                    className="h-6 w-auto object-contain"
-                />
-                <span className="text-white font-black text-xl tracking-wider font-sans">
-                    FITLOG
-                </span>
-            </Link>
+  return (
+    <nav className="flex w-full items-center justify-between border-b border-gray-800 bg-[#111214] px-6 py-4">
+      {/* Logo */}
+      <Link href="/" className="flex items-center space-x-2">
+        <img
+          src="/assets/logo.png"
+          alt="FITLOG Logo"
+          className="h-6 w-auto object-contain"
+        />
 
-            {/* Center: Navigation Links */}
-            <div className="flex items-center space-x-6 text-sm font-medium">
-                <Link
-                    href="/"
-                    className="text-gray-400 hover:text-[#CCFF00] transition-colors"
-                >
-                    Workouts
-                </Link>
+        <span className="font-sans text-xl font-black tracking-wider text-white">
+          FITLOG
+        </span>
+      </Link>
 
-                <Link
-                    href="/my-plan"
-                    className="text-gray-400 hover:text-[#CCFF00] transition-colors"
-                >
-                    My Plan
-                </Link>
-            </div>
+      {/* Navigation */}
+      <div className="flex items-center space-x-6 text-sm font-medium">
+        <Link
+          href="/"
+          className={`transition-colors ${
+            isWorkoutActive
+              ? "text-[#CCFF00]"
+              : "text-gray-400 hover:text-white"
+          }`}
+        >
+          Workouts
+        </Link>
 
-            {/* Right Side: Plan & Saved Status */}
-            <div className="flex items-center space-x-4 text-xs font-semibold tracking-wide uppercase">
+        <Link
+          href="/my-plan"
+          className={`transition-colors ${
+            isMyPlanActive
+              ? "text-[#CCFF00]"
+              : "text-gray-400 hover:text-white"
+          }`}
+        >
+          My Plan
+        </Link>
+      </div>
 
-                {/* Plan Status */}
-                <Link
-                    href="/my-plan"
-                    className="flex items-center space-x-1.5 text-gray-400 hover:text-white transition-colors"
-                >
-                    <span>Plan</span>
+      {/* Plan & Saved */}
+      <div className="flex items-center space-x-4 text-xs font-semibold uppercase tracking-wide">
+        {/* Plan */}
+        <Link
+          href="/my-plan"
+          className="flex items-center space-x-1.5 text-gray-400 transition-colors hover:text-white"
+        >
+          <span>Plan</span>
 
-                    <span className="w-5 h-5 rounded-full bg-[#CCFF00] text-black flex items-center justify-center font-bold text-[10px]">
-                        {context?.planWorkouts.length ?? 0}
-                    </span>
-                </Link>
+          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#CCFF00] text-[10px] font-bold text-black">
+            {context?.planWorkouts.length ?? 0}
+          </span>
+        </Link>
 
-                {/* Saved Status */}
-                <Link
-                    href="/my-plan"
-                    className="flex items-center space-x-1.5 text-gray-400 hover:text-white transition-colors"
-                >
-                    <span>Saved</span>
+        {/* Saved */}
+        <Link
+          href="/my-plan"
+          className="flex items-center space-x-1.5 text-gray-400 transition-colors hover:text-white"
+        >
+          <span>Saved</span>
 
-                    <span className="w-5 h-5 rounded-full bg-gray-800 text-gray-400 flex items-center justify-center font-bold text-[10px]">
-                        {context?.savedWorkouts.length ?? 0}
-                    </span>
-                </Link>
-            </div>
-        </nav>
-    );
+          <span className="flex h-5 w-5 items-center justify-center rounded-full border border-gray-700 bg-transparent text-[10px] font-bold text-gray-400">
+            {context?.savedWorkouts.length ?? 0}
+          </span>
+        </Link>
+      </div>
+    </nav>
+  );
 };
 
 export default Navbar;

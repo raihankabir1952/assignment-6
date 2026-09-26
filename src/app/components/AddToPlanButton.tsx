@@ -31,6 +31,14 @@ const AddToPlanButton = ({ workout }: { workout: Workout }) => {
       return;
     }
 
+    if (context.planWorkouts.length >= 5) {
+      context.showToast(
+        "Today's plan can contain up to 5 workouts.",
+        "error"
+      );
+      return;
+    }
+
     context.addToPlan(workout);
     context.showToast("Workout added to today's plan!");
   };

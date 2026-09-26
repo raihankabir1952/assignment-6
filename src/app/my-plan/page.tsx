@@ -144,7 +144,7 @@ export default function MyPlanPage() {
 
           <p className="mt-2 text-sm text-gray-400">
             {activeTab === "today"
-              ? "Browse the library and add a workout to your plan."
+              ? "Browse the library and add a lift to get today moving."
               : "Save a workout to see it here later."}
           </p>
 
