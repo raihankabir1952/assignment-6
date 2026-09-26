@@ -22,6 +22,12 @@ A modern and responsive workout planning application where users can explore wor
 
 ## 🔗 Links
 
-**Live Demo:** `YOUR_LIVE_LINK_HERE`
+<p align="left">
+  <a href="YOUR_LIVE_LINK_HERE" target="_blank">
+    <img src="https://img.shields.io/badge/⚡%20Visit%20Live%20Demo-🚀-blue?style=for-the-badge&color=0070F3" alt="Live Demo" />
+  </a>
+  <a href="https://github.com/raihankabir1952/assignment-6" target="_blank">
+    <img src="https://img.shields.io/badge/📂%20Explore%20Source%20Code-⭐-black?style=for-the-badge&color=24292e" alt="GitHub Repo" />
+  </a>
+</p>
 
-**GitHub Repository:** `YOUR_GITHUB_LINK_HERE`
