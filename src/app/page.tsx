@@ -1,5 +1,6 @@
 import Hero from "./components/Hero";
 import WorkoutCard from "./components/WorkoutCard";
+import PageLoader from "./components/PageLoader";
 
 interface Workout {
   id: number;
@@ -15,13 +16,7 @@ interface Workout {
   rating: number;
 }
 
-const delay = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
-
 export default async function Home() {
-  // Keep the loading UI visible for 2 seconds
-  await delay(2000);
-
   const res = await fetch(
     "https://api.abcz.workers.dev/api/fitlog"
   );
@@ -33,7 +28,7 @@ export default async function Home() {
   const workouts: Workout[] = await res.json();
 
   return (
-    <>
+    <PageLoader>
       <Hero />
 
       <main
@@ -41,7 +36,6 @@ export default async function Home() {
         className="bg-[#111214] px-6 py-16 md:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-[1700px]">
-          {/* Section Header */}
           <div className="mb-10 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <h2 className="text-3xl font-black uppercase tracking-tight text-white md:text-4xl">
@@ -58,7 +52,6 @@ export default async function Home() {
             </p>
           </div>
 
-          {/* Workout Grid */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {workouts.map((workout) => (
               <WorkoutCard
@@ -69,6 +62,6 @@ export default async function Home() {
           </div>
         </div>
       </main>
-    </>
+    </PageLoader>
   );
 }
