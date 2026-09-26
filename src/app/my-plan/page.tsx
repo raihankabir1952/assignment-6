@@ -15,59 +15,78 @@ type SortOption =
 export default function MyPlanPage() {
   const context = useContext(FitLogContext);
 
-  const [activeTab, setActiveTab] = useState<"today" | "saved">("today");
+  const [activeTab, setActiveTab] = useState<
+    "today" | "saved"
+  >("today");
 
   const [sortBy, setSortBy] =
     useState<SortOption>("duration");
 
-  const plannedWorkouts = context?.planWorkouts ?? [];
-  const savedWorkouts = context?.savedWorkouts ?? [];
+  const plannedWorkouts =
+    context?.planWorkouts ?? [];
+
+  const savedWorkouts =
+    context?.savedWorkouts ?? [];
 
   const displayedWorkouts =
-    activeTab === "today" ? plannedWorkouts : savedWorkouts;
+    activeTab === "today"
+      ? plannedWorkouts
+      : savedWorkouts;
 
   // Sorting
-  const sortedWorkouts = [...displayedWorkouts].sort((a, b) => {
-    if (sortBy === "duration") {
-      return a.duration - b.duration;
-    }
+  const sortedWorkouts = [...displayedWorkouts].sort(
+    (a, b) => {
+      if (sortBy === "duration") {
+        return a.duration - b.duration;
+      }
 
-    if (sortBy === "calories") {
-      return a.caloriesBurned - b.caloriesBurned;
-    }
+      if (sortBy === "calories") {
+        return (
+          a.caloriesBurned -
+          b.caloriesBurned
+        );
+      }
 
-    if (sortBy === "rating") {
-      return b.rating - a.rating;
-    }
+      if (sortBy === "rating") {
+        return b.rating - a.rating;
+      }
 
-    return 0;
-  });
+      return 0;
+    }
+  );
 
   // Summary
-  const totalExercises = displayedWorkouts.length;
+  const totalExercises =
+    displayedWorkouts.length;
 
-  const totalMinutes = displayedWorkouts.reduce(
-    (total, workout) => total + workout.duration,
-    0
-  );
+  const totalMinutes =
+    displayedWorkouts.reduce(
+      (total, workout) =>
+        total + workout.duration,
+      0
+    );
 
-  const totalCalories = displayedWorkouts.reduce(
-    (total, workout) => total + workout.caloriesBurned,
-    0
-  );
+  const totalCalories =
+    displayedWorkouts.reduce(
+      (total, workout) =>
+        total + workout.caloriesBurned,
+      0
+    );
 
   return (
     <main className="min-h-screen bg-[#0b0c0e] p-10 text-white">
       {/* Header */}
-      <h1 className="text-3xl font-bold">MY PLAN</h1>
+      <h1 className="text-3xl font-bold">
+        MY PLAN
+      </h1>
 
       <p className="mt-2 text-gray-400">
-        Cap of five lifts for today. Finish them, then load more.
+        Cap of five lifts for today. Finish them,
+        then load more.
       </p>
 
       {/* Summary */}
       <div className="mt-6 grid grid-cols-1 rounded-lg border border-dashed border-gray-700 p-6 sm:grid-cols-3 sm:divide-x sm:divide-gray-700">
-        {/* Exercises */}
         <div className="first:pl-0 sm:px-6">
           <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
             Exercises
@@ -78,7 +97,6 @@ export default function MyPlanPage() {
           </p>
         </div>
 
-        {/* Minutes */}
         <div className="mt-4 sm:mt-0 sm:px-6">
           <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
             Minutes
@@ -89,7 +107,6 @@ export default function MyPlanPage() {
           </p>
         </div>
 
-        {/* Calories */}
         <div className="mt-4 sm:mt-0 sm:px-6">
           <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
             Calories
@@ -103,32 +120,36 @@ export default function MyPlanPage() {
 
       {/* Tabs + Sort */}
       <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-        {/* Tabs */}
         <div className="flex w-fit items-center gap-1 rounded-lg border border-gray-800 bg-[#17181c] p-1">
           <button
             type="button"
-            onClick={() => setActiveTab("today")}
-            className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${activeTab === "today"
-              ? "border border-gray-800 bg-[#111214] text-white"
-              : "text-gray-500 hover:text-white"
-              }`}
+            onClick={() =>
+              setActiveTab("today")
+            }
+            className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${
+              activeTab === "today"
+                ? "border border-gray-800 bg-[#111214] text-white"
+                : "text-gray-500 hover:text-white"
+            }`}
           >
-            Today's Plan
+            Today&apos;s Plan
           </button>
 
           <button
             type="button"
-            onClick={() => setActiveTab("saved")}
-            className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${activeTab === "saved"
-              ? "border border-gray-800 bg-[#111214] text-white"
-              : "text-gray-500 hover:text-white"
-              }`}
+            onClick={() =>
+              setActiveTab("saved")
+            }
+            className={`rounded-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${
+              activeTab === "saved"
+                ? "border border-gray-800 bg-[#111214] text-white"
+                : "text-gray-500 hover:text-white"
+            }`}
           >
             Saved
           </button>
         </div>
 
-        {/* Sort Dropdown */}
         <SortDropdown
           sortBy={sortBy}
           setSortBy={setSortBy}
@@ -156,14 +177,14 @@ export default function MyPlanPage() {
           </Link>
         </div>
       ) : (
-        /* Workout Cards */
+        /* Workout List */
         <div className="mt-6 space-y-4">
           {sortedWorkouts.map((workout) => (
             <div
               key={workout.id}
               className="flex flex-col gap-4 rounded-lg border border-gray-700 p-4 sm:flex-row sm:items-center"
             >
-              {/* Image */}
+              {/* Thumbnail */}
               <div className="h-24 w-full shrink-0 overflow-hidden rounded-lg bg-gray-900 sm:h-20 sm:w-28">
                 <img
                   src={workout.image}
@@ -182,34 +203,36 @@ export default function MyPlanPage() {
                   {workout.equipment}
                 </p>
 
-                {/* Stats */}
                 <div className="mt-3 flex flex-wrap items-center gap-5">
-                  {/* Duration */}
                   <div className="flex items-center gap-2 text-gray-400">
                     <Clock3 size={16} />
-                    <span>{workout.duration} min</span>
+                    <span>
+                      {workout.duration} min
+                    </span>
                   </div>
 
-                  {/* Calories */}
                   <div className="flex items-center gap-2 text-gray-400">
                     <Flame size={16} />
-                    <span>{workout.caloriesBurned} kcal</span>
+                    <span>
+                      {workout.caloriesBurned} kcal
+                    </span>
                   </div>
 
-                  {/* Rating */}
                   <div className="flex items-center gap-2 text-[#CCFF00]">
                     <Star
                       size={16}
                       fill="currentColor"
                     />
-                    <span>{workout.rating}</span>
+                    <span>
+                      {workout.rating}
+                    </span>
                   </div>
                 </div>
               </div>
 
-              {/* Action Buttons */}
+              {/* Actions */}
               <div className="flex shrink-0 flex-wrap items-center gap-2 sm:ml-auto">
-                {/* View Details */}
+                {/* View Details - Both tabs */}
                 <Link
                   href={`/workout/${workout.id}`}
                   className="inline-flex items-center justify-center whitespace-nowrap rounded-lg border border-gray-700 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-300 transition-colors hover:border-[#CCFF00] hover:text-[#CCFF00]"
@@ -217,20 +240,36 @@ export default function MyPlanPage() {
                   View Details
                 </Link>
 
-                {/* Mark as Done */}
-                <MarkAsDoneButton workoutId={workout.id} />
+                {/* Mark as Done - Today's Plan only */}
+                {activeTab === "today" && (
+                  <MarkAsDoneButton
+                    workoutId={workout.id}
+                  />
+                )}
 
-                {/* Remove */}
+                {/* Remove - Both tabs */}
                 <button
                   type="button"
                   aria-label="Remove workout"
                   onClick={() => {
                     if (activeTab === "today") {
-                      context?.removeFromPlan(workout.id);
-                      context?.showToast("Workout removed!", "error");
+                      context?.removeFromPlan(
+                        workout.id
+                      );
+
+                      context?.showToast(
+                        "Workout removed!",
+                        "error"
+                      );
                     } else {
-                      context?.removeFromSaved(workout.id);
-                      context?.showToast("Workout removed!", "error");
+                      context?.removeFromSaved(
+                        workout.id
+                      );
+
+                      context?.showToast(
+                        "Workout removed!",
+                        "error"
+                      );
                     }
                   }}
                   className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-700 text-gray-500 transition-colors hover:border-red-500 hover:text-red-500"

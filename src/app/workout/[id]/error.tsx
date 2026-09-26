@@ -25,7 +25,7 @@ const ErrorPage = ({ error, reset }: ErrorPageProps) => {
         </h1>
 
         <p className="mt-3 text-sm leading-relaxed text-gray-500">
-          We couldn't load this workout right now. Please try again.
+          We couldn&apos;t load this workout right now. Please try again.
         </p>
 
         <div className="mt-6 flex flex-wrap justify-center gap-3">

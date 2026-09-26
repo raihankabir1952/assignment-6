@@ -46,9 +46,9 @@ interface FitLogContextType {
   clearToast: () => void;
 };
 
-/* --------------------------------------------------
+/* 
    LocalStorage helper
--------------------------------------------------- */
+*/
 
 const listeners = new Map<string, Set<() => void>>();
 
@@ -106,9 +106,9 @@ const getStorageValue = <T,>(
   }
 };
 
-/* --------------------------------------------------
+/* 
    LocalStorage hook
--------------------------------------------------- */
+*/
 
 const useLocalStorage = <T,>(
   key: string,
@@ -166,9 +166,9 @@ const useLocalStorage = <T,>(
   return [value, setValue];
 };
 
-/* --------------------------------------------------
+/* 
    Context
--------------------------------------------------- */
+ */
 
 const FitLogContext =
   createContext<FitLogContextType | null>(null);
