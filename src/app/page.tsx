@@ -15,8 +15,16 @@ interface Workout {
   rating: number;
 }
 
+const delay = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
 export default async function Home() {
-  const res = await fetch("https://api.abcz.workers.dev/api/fitlog");
+  // Keep the loading UI visible for 2 seconds
+  await delay(2000);
+
+  const res = await fetch(
+    "https://api.abcz.workers.dev/api/fitlog"
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch workout data");
@@ -53,7 +61,10 @@ export default async function Home() {
           {/* Workout Grid */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {workouts.map((workout) => (
-              <WorkoutCard key={workout.id} workout={workout} />
+              <WorkoutCard
+                key={workout.id}
+                workout={workout}
+              />
             ))}
           </div>
         </div>
