@@ -1,6 +1,10 @@
 # 🏋️ FitLog
 
-A modern and responsive workout planning application where users can explore workouts, view exercise details, create a daily workout plan, save workouts for later, and track completed exercises.
+FitLog is a modern and responsive workout planning application where users can explore workouts, view detailed exercise information, create a daily workout plan, save workouts for later, and track completed exercises.
+
+## 📸 Screenshot
+
+![FitLog Screenshot](./image.png)
 
 ## 🛠️ Technologies Used
 
@@ -18,7 +22,61 @@ A modern and responsive workout planning application where users can explore wor
 * 🔍 **Workout Details** — View detailed exercise information, specifications, and step-by-step instructions.
 * 📋 **Daily Workout Plan** — Add workouts to today's plan and track total exercises, minutes, and calories.
 * 🔖 **Save for Later** — Save workouts and manage them from the Saved section.
-* ✅ **Workout Tracking** — Mark workouts as completed, remove workouts, and receive instant feedback with toast notifications.
+* ✅ **Workout Tracking** — Mark workouts as completed and remove workouts from the daily plan.
+* 🔔 **Toast Notifications** — Receive instant feedback when performing workout actions.
+
+## 📦 Dependencies
+
+The project uses the following main dependencies:
+
+* **Next.js** — React framework for building the application.
+* **React** — Building the user interface.
+* **TypeScript** — Type-safe JavaScript development.
+* **Tailwind CSS** — Styling and responsive UI.
+* **React Context API** — Managing shared workout and application state.
+* **React Toastify** — Displaying toast notifications.
+
+> The complete dependency list is available in `package.json`.
+
+## 🚀 Getting Started
+
+Follow these steps to run FitLog locally.
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/raihankabir1952/assignment-6.git
+```
+
+### 2. Navigate to the project directory
+
+```bash
+cd assignment-6
+```
+
+### 3. Install dependencies
+
+```bash
+npm install
+```
+
+### 4. Start the development server
+
+```bash
+npm run dev
+```
+
+Open the local development URL:
+
+```text
+http://localhost:3000
+```
+
+### 5. Build for production
+
+```bash
+npm run build
+```
 
 ## 🔗 Links
 
@@ -31,3 +89,9 @@ A modern and responsive workout planning application where users can explore wor
   </a>
 </p>
 
+## 👨‍💻 Developer
+
+**Raihan Kabir**
+
+* GitHub: [raihankabir1952](https://github.com/raihankabir1952)
+* LinkedIn: [Raihan Kabir](https://www.linkedin.com/in/raihan-kabir-4895333a0/)
